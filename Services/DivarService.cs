@@ -1,4 +1,4 @@
-using divar.Models;
+using divar.ViewModels;
 using Newtonsoft.Json;
 
 namespace divar.Services

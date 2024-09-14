@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using divar.Models;
 using divar.Services;
+using divar.ViewModels;
 
 namespace divar.Controllers;
 

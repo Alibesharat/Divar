@@ -1,6 +1,6 @@
 
-using divar.Models;
 using divar.Services;
+using divar.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace divar.Controllers

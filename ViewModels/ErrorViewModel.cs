@@ -1,4 +1,4 @@
-namespace divar.Models;
+namespace divar.ViewModels;
 
 public class ErrorViewModel
 {
