@@ -71,7 +71,8 @@ public class PostController : Controller
 
         _Db.SaveChanges();
 
-        return Ok($"Booked SuccessFully at : {reservation.BookTime}");
+        ViewBag.message  = $"{name} عزیز کارشناس آرمین مسعودی جهت هماهنگی های بیشتر با شما تماس میگیرد";
+        return View("result");
     }
 
 
