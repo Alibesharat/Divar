@@ -2,6 +2,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using divar.Services;
 using divar.ViewModels;
+using divar.DAL;
+using divar.DAL.Models;
 
 namespace divar.Controllers;
 
@@ -13,10 +15,13 @@ public class PostController : Controller
     private readonly ILogger<PostController> _logger;
     private readonly DivarService _divarService;
 
-    public PostController(ILogger<PostController> logger, DivarService divarService)
+    private readonly DivarDataContext _Db;
+
+    public PostController(ILogger<PostController> logger, DivarService divarService,DivarDataContext db)
     {
         _logger = logger;
         _divarService = divarService;
+        _Db = db;
     }
 
     [HttpGet("Post/{postToken}")]
@@ -54,8 +59,19 @@ public class PostController : Controller
 
     public IActionResult Reservation([FromForm] string name,string mobile,int option,int date)
     {
-        var _data=DateTime.UtcNow.AddDays(date);
-        return Ok($"{name}-{mobile}-{option}-{date}");
+        var _date=DateTime.UtcNow.AddDays(date);
+
+         var reservation = new Reservation()
+         {
+ BookTime = _date,
+            ExpertOption = (ExpertOption)option,
+            FullName = name,
+         };
+        _Db.Reservations.Add(reservation);
+
+        _Db.SaveChanges();
+
+        return Ok($"Booked SuccessFully at : {reservation.BookTime}");
     }
 
 

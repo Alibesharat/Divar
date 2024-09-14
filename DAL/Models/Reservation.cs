@@ -18,7 +18,7 @@ namespace divar.DAL.Models
     }
 
 
-    public enum ExpertOption
+    public enum ExpertOption : int
     {
 
         basic = 1,
