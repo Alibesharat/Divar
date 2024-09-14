@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'Samim';
+    src: url('../fonts/Samim.woff2') format('woff2'),
+         url('../fonts/Samim.woff') format('woff'),
+         url('../fonts/Samim.eot') format('eot'),
+         url('../fonts/Samim.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Samim', sans-serif;
+}
+
+input, textarea, select { font-family:inherit;}

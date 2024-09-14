@@ -1,0 +1,186 @@
+﻿@model divar.Models.PostData
+@using DNTPersianUtils.Core
+@{
+    ViewData["Title"] = @Model.Data.Title;
+    var currentDate = DateTime.Now;
+
+}
+
+ <div class="row">
+    </br></br>
+     <div class="wizard">
+        <!-- Step 1 -->
+        <div class="step" id="step-1">
+            <div class="col s12 m6 offset-m3">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title center">انتخاب سرویس </span>
+                        <br>
+                        <p class="center">سرویس مد نظر خود را انتخاب کنید</p>
+                        <br>
+                        <div class="card lime" onclick="nextStep(1,1)" style="cursor: pointer;">
+                            <div class="card-content center black-text">
+                                <p>کارشناسی اصالات کالا</p>
+                                <p>250 هزار تومان</p>
+                            </div>
+                        </div>
+                        <div class="card lime darken-2 black-text" onclick="nextStep(1,2)" style="cursor: pointer;">
+                            <div class="card-content center">
+                                <p>کارشناسی استاندارد</p>
+                                <p>500 هزار تومان</p>
+                            </div>
+                        </div>
+                        <div class="card lime darken-4" onclick="nextStep(1,3)" style="cursor: pointer;">
+                            <div class="card-content center">
+                                <p>کارشناسی ویژه</p>
+                                <p>1 ملیون تومان</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step" id="step-2" style="display: none;" >
+            <div class="col s12 m6 offset-m3">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title center"> انتخاب زمان  </span>
+                        <br>
+                        <p class="center">  در چه زمانی میخواهید کارشناس حضور پیدا کند ؟   </p>
+                        <br>
+                        <div class="card lime  black-text" onclick="nextStep(2,1)" style="cursor: pointer;">
+                            <div class="card-content center">
+                                <p>@currentDate.AddDays(1).ToPersianDateTextify()</p>
+                            </div>
+                        </div>
+                          <div class="card lime lighten-2 black-text" onclick="nextStep(2,2)" style="cursor: pointer;">
+                            <div class="card-content center">
+                                <p> @currentDate.AddDays(2).ToPersianDateTextify()  </p>
+                            </div>
+                        </div>
+                            <div class="card lime darken-4 black-text">
+                            <div class="card-content center" onclick="nextStep(2,3)" style="cursor: pointer;">
+                                <p> @currentDate.AddDays(3).ToPersianDateTextify()  </p>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                          <button class="prev-btn" onclick="prevStep(2)">قبلی </button>
+                          <p class="center">   امروز : @currentDate.ToPersianDateTextify()    </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step" id="step-3" style="display: none;">
+            <div class="col s12 m6 offset-m3">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title center"> اطلاعات شخصی  </span>
+                        <br>
+                        <p class="center"> اطلاعات شخصی خود را اینجا وارد کنید</p>
+                        <br>
+                        <div class="card  ">
+                            <div class="card-content grey darken-4 center white-text">
+                                <form asp-action="Reservation" asp-asp-controller="Post" method="post">
+                                 <p><input name="name" type="text" placeholder="نام و نام خانوادگی"/></p>
+                                <p><input name="mobile" type="number" placeholder=" شماره موبایل  "/></p>
+                                <input name="option" id=option type="hidden" value="">
+                                <input name="date" id=date type="hidden" value="">
+                                  <button class="next-btn" type="submit">ارسال</button>
+                              </form>
+                            </div>
+                        </div>
+                         <div class="card-action">
+                          <button class="prev-btn" onclick="prevStep(3)">قبلی </button>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+
+
+ @section Scripts
+ {
+    <script>
+
+let currentStep = 1;
+let option = 1;
+let date = 1;
+let optionInput =  document.getElementById("option");
+let dateInput  =  document.getElementById("date");
+
+
+function showStep(step) {
+    const steps = document.querySelectorAll('.step');
+
+    // Hide all steps initially
+    steps.forEach((element, index) => {
+        element.classList.remove('active', 'exiting');
+        element.style.display = 'none';
+    });
+
+    // Show the next step with animation
+    const newStep = document.getElementById(`step-${step}`);
+    newStep.style.display = 'block';
+    setTimeout(() => {
+        newStep.classList.add('active');
+    }, 10); // Add small delay for transition to work
+}
+
+function nextStep(step,choose) {
+    if(step == 1)
+    {
+       optionInput.value = choose;
+    }
+    if(step ==  2 )
+    {
+         dateInput.value = choose;
+    }
+    const current = document.getElementById(`step-${step}`);
+    
+    // Animate the current step as it exits
+    current.classList.add('exiting');
+    
+    // Move to the next step after the transition ends
+    setTimeout(() => {
+        currentStep = step + 1;
+        showStep(currentStep);
+    }, 500); // This matches the duration of the CSS transition
+}
+
+function prevStep(step) {
+    const current = document.getElementById(`step-${step}`);
+
+    // Animate the current step as it exits
+    current.classList.add('exiting');
+
+    // Move to the previous step after the transition ends
+    setTimeout(() => {
+        currentStep = step - 1;
+        showStep(currentStep);
+    }, 500); // This matches the duration of the CSS transition
+}
+
+function submitWizard() {
+    alert("تبریک فرم ارسال شد ");
+    alert(option);
+    alert(date);
+}
+
+// Initially display the first step
+showStep(currentStep);
+    </script>
+ }
+
+  
+
+    
+

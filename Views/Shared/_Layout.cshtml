@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - راجیز</title>
+    <link rel="stylesheet" href="~/css/font.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/materialize.css" asp-append-version="true" />
+      <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/divar.styles.css" asp-append-version="true" />
+    
+</head>
+ <body dir="rtl">
+    <div class="navbar-fixed">
+ <nav class="lime">
+    <div class="nav-wrapper">
+      <ul id="nav-mobile " class="right">
+        <li><a class="black-text" href="#">استعلام</a></li>
+        <li><a class="black-text" href="#l">بررسی</a></li>
+        <li><a class="black-text" href="#">خرید و فروش</a></li>
+        <li><a class="black-text" href="#"> تماس با ما</a></li>
+
+      </ul>
+    </div>
+  </nav>
+    </div>
+    
+    <div class="container">
+        @RenderBody()
+    </div>
+
+  @await RenderSectionAsync("Scripts", required: false)
+  </body>
+</html>
