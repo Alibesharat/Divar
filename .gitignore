@@ -1,0 +1,31 @@
+# Ignore node_modules (for Node.js projects)
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore all .DS_Store files (macOS system files)
+.DS_Store
+
+# Ignore compiled files (for C#, Java, or other compiled languages)
+*.class
+*.dll
+*.exe
+*.o
+*.out
+
+# Ignore environment variables and secrets
+.env
+*.env
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.swp
+
+# Ignore IDE-specific files (VSCode, JetBrains IDEs, etc.)
+.vscode/
+.idea/
+*.iml
+
+
