@@ -52,8 +52,9 @@ public class PostController : Controller
     }
 
 
-    public IActionResult Reservation([FromForm] string name,string mobile,string option,string date)
+    public IActionResult Reservation([FromForm] string name,string mobile,int option,int date)
     {
+        var _data=DateTime.UtcNow.AddDays(date);
         return Ok($"{name}-{mobile}-{option}-{date}");
     }
 
