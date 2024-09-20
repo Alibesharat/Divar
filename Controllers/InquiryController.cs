@@ -24,7 +24,7 @@ public class InquiryController : Controller
         _Db = db;
     }
 
-    [HttpGet("Post/{postToken}")]
+    [HttpGet("Inquiry/{postToken}")]
     public async Task<IActionResult> Index(string postToken)
     {
         if (string.IsNullOrEmpty(postToken))
