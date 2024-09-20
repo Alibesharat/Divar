@@ -57,3 +57,55 @@ button[disabled] {
 }
 
 input, textarea, select { font-family:inherit; color: whitesmoke}
+
+.gray-color
+{
+    background-color: rgb(250, 250, 250);
+}
+
+.card-action a
+{
+    color: blue !important;
+}
+
+.bronze 
+{
+    background-color: #CD7F32;
+}
+
+.silver
+{
+    background-color: #C0C0C0;
+}
+
+.gold{
+    background-color: #FFD700;
+}
+.details li 
+{
+    font-size: small;
+    justify-content:first baseline;
+    text-align: right;
+}
+
+
+.details li::before {
+    content: "    ✔   "; /* Unicode character for a checkmark */
+    color: green;  /* You can change the color if needed */
+  }
+  .details li::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px; /* Thickness of the line */
+    background-color: #cccccc27; /* Color of the line */
+    margin-top: 10px; /* Space between the text and the line */
+    margin-bottom: 10px; /* Space between the text and the line */
+
+  }
+  
+  .pricing-header
+  {
+    background-color: rgba(245, 245, 245, 0.247);
+    padding: 5px;
+  }
