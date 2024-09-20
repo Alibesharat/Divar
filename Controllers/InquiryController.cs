@@ -10,14 +10,14 @@ namespace divar.Controllers;
 /// <summary>
 ///Divar posts
 /// </summary>
-public class PostController : Controller
+public class InquiryController : Controller
 {
-    private readonly ILogger<PostController> _logger;
+    private readonly ILogger<InquiryController> _logger;
     private readonly DivarService _divarService;
 
     private readonly DivarDataContext _Db;
 
-    public PostController(ILogger<PostController> logger, DivarService divarService,DivarDataContext db)
+    public InquiryController(ILogger<InquiryController> logger, DivarService divarService,DivarDataContext db)
     {
         _logger = logger;
         _divarService = divarService;
@@ -63,7 +63,7 @@ public class PostController : Controller
 
          var reservation = new Reservation()
          {
- BookTime = _date,
+            BookTime = _date,
             ExpertOption = (ExpertOption)option,
             FullName = name,
          };

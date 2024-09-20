@@ -21,6 +21,24 @@ public class HomeController : Controller
         return View();
     }
 
+
+    public IActionResult AboutUs()
+    {
+        return View();
+    }
+
+    public IActionResult ContactUs()
+    {
+        return View();
+    }
+
+    public IActionResult KnowledgeBase()
+    {
+        return View();
+    }
+
+
+
     public IActionResult Privacy()
     {
         return View();
