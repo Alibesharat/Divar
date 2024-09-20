@@ -17,7 +17,7 @@ public class InquiryController : Controller
 
     private readonly DivarDataContext _Db;
 
-    public InquiryController(ILogger<InquiryController> logger, DivarService divarService,DivarDataContext db)
+    public InquiryController(ILogger<InquiryController> logger, DivarService divarService, DivarDataContext db)
     {
         _logger = logger;
         _divarService = divarService;
@@ -57,26 +57,26 @@ public class InquiryController : Controller
     }
 
 
-    public IActionResult Reservation([FromForm] string name,string mobile,int option,int date)
+    public IActionResult Reservation([FromForm] string name, string mobile, int option, int date)
     {
-        var _date=DateTime.UtcNow.AddDays(date);
+        var _date = DateTime.UtcNow.AddDays(date);
 
-         var reservation = new Reservation()
-         {
+        var reservation = new Reservation()
+        {
             BookTime = _date,
             ExpertOption = (ExpertOption)option,
             FullName = name,
-         };
+        };
         _Db.Reservations.Add(reservation);
 
         _Db.SaveChanges();
 
-        ViewBag.message  = $"{name} عزیز کارشناس آرمین مسعودی جهت هماهنگی های بیشتر با شما تماس میگیرد";
+        ViewBag.message = $"{name} عزیز کارشناس آرمین مسعودی جهت هماهنگی های بیشتر با شما تماس میگیرد";
         return View("result");
     }
 
 
-   
+
 
     public IActionResult Privacy()
     {
