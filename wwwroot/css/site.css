@@ -88,6 +88,11 @@ input, textarea, select { font-family:inherit; color: whitesmoke}
     text-align: right;
 }
 
+.details li strong
+{
+    font-weight: bold;
+}
+
 
 .details li::before {
     content: "    ✔   "; /* Unicode character for a checkmark */
@@ -103,9 +108,22 @@ input, textarea, select { font-family:inherit; color: whitesmoke}
     margin-bottom: 10px; /* Space between the text and the line */
 
   }
+
+
+
   
   .pricing-header
   {
     background-color: rgba(245, 245, 245, 0.247);
     padding: 5px;
+  }
+
+  nav ul li 
+  {
+    float: right !important;
+  }
+
+  .btn-long
+  {
+    width: 250px;
   }

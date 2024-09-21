@@ -1,0 +1,12 @@
+﻿@model IList<divar.ViewComponents.FooterNav>
+
+<div class="card-action ">
+            <p class="center">
+              @foreach(var item in Model)
+              {
+                <a asp-action="@item.Action" asp-controller="@item.Controller"> @item.Title    </a>
+              }
+
+            </p>
+         
+        </div>
