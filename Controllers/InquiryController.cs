@@ -33,7 +33,8 @@ public class InquiryController : Controller
     {
         if (!string.IsNullOrEmpty(postToken))
         {
-           var postData = await _divarService.GetPostDataAsync(postToken);
+            var postData = await _divarService.GetPostDataAsync(postToken);
+            System.Console.WriteLine(postData.Token);
           
             return View(postData);
         }else
