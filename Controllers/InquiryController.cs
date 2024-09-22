@@ -27,35 +27,24 @@ public class InquiryController : Controller
         _sms =sms;
     }
 
-    [HttpGet("Inquiry/{postToken}")]
-    public async Task<IActionResult> Index(string postToken)
+    [HttpGet("Inquiry/{postToken?}")]
+    public async Task<IActionResult> Index(string postToken = null)
     {
-        if (string.IsNullOrEmpty(postToken))
+        if (!string.IsNullOrEmpty(postToken))
         {
-            return BadRequest("postToken is required");
-        }
-
-        try
+           var postData = await _divarService.GetPostDataAsync(postToken);
+          
+            return View(postData);
+        }else
         {
-            var postData = await _divarService.GetPostDataAsync(postToken);
-
-            // if (postData == null)
-            // {
-            //     return NotFound("Post data not found");
-            // }
-            postData = new PostData()
+              var postData = new PostData()
             {
                 Data = new Data()
                 {
-                    Title = "پرینتر canon"
+                    Title = "درخواست جدید"
                 }
             };
-            return View(postData);
-        }
-        catch (Exception ex)
-        {
-            // Log the exception (ex) if necessary
-            return StatusCode(500, "متاسفانه خطایی رخ داد");
+             return View(postData);
         }
     }
 

@@ -23,7 +23,7 @@ namespace divar.ViewComponents
         public string Title { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
-
+        
         public static List<FooterNav> Items()
         {
             List<FooterNav> itemList =
