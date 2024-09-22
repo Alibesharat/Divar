@@ -9,6 +9,7 @@ builder.Services.AddDbContext<DivarDataContext>();
 builder.Services.AddSmsService();
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

@@ -25,6 +25,7 @@ public class InquiryController : Controller
         _divarService = divarService;
         _Db = db;
         _sms =sms;
+        _Db.Initialize();
     }
 
     [HttpGet("Inquiry/{postToken?}")]
