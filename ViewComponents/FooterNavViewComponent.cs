@@ -29,8 +29,6 @@ namespace divar.ViewComponents
             List<FooterNav> itemList =
             [
                 new FooterNav() { Title = "تماس با ما", Action = "ContactUs", Controller = "Home" },
-                new FooterNav() { Title = "درباره ما", Action = "AboutUs", Controller = "Home" },
-                new FooterNav() { Title = "پایگاه دانش", Action = "KnowledgeBase", Controller = "Home" },
                 new FooterNav() { Title = "استعلام", Action = "Index", Controller = "Inquiry" },
             ];
             return itemList;

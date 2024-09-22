@@ -17,11 +17,14 @@ public class InquiryController : Controller
 
     private readonly DivarDataContext _Db;
 
-    public InquiryController(ILogger<InquiryController> logger, DivarService divarService, DivarDataContext db)
+    private readonly SmsService _sms;
+
+    public InquiryController(ILogger<InquiryController> logger, DivarService divarService, DivarDataContext db,SmsService sms)
     {
         _logger = logger;
         _divarService = divarService;
         _Db = db;
+        _sms =sms;
     }
 
     [HttpGet("Inquiry/{postToken}")]
@@ -71,7 +74,10 @@ public class InquiryController : Controller
 
         _Db.SaveChanges();
 
-        ViewBag.message = $"{name} عزیز کارشناس آرمین مسعودی جهت هماهنگی های بیشتر با شما تماس میگیرد";
+          string message = $"{name} عزیز درخواست وقت مشاوره شما با موفقیت انجام شد . کارشناس آرمین مسعودی جهت هماهنگی های بیشتر با شما تماس میگیرد";
+         _sms.SendMessage(mobile,message);
+         ViewBag.message = message;
+       
         return View("result");
     }
 

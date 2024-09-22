@@ -69,9 +69,9 @@
                 <div class="card gray-color  ">
                      <a class="btn-floating halfway-fab waves-effect waves-light red"  onclick="prevStep(2)"><i class="material-icons">arrow_forward</i></a>
                     <div class="card-content white-text">
-                        <span class="card-title center"> انتخاب زمان  </span>
+                        <span class="card-title center black-text"> انتخاب زمان  </span>
                         <br>
-                        <p class="center">  در چه زمانی میخواهید کارشناس حضور پیدا کند ؟   </p>
+                        <p class="center black-text">  در چه زمانی میخواهید کارشناس حضور پیدا کند ؟   </p>
                         <br>
                         <div class="card lime  black-text hoverable" onclick="nextStep(2,1)" style="cursor: pointer;">
                             <div class="card-content center">
@@ -89,7 +89,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                          <p class="center">   امروز : @currentDate.ToPersianDateTextify()    </p>
+                          <p class="center black-text">   امروز : @currentDate.ToPersianDateTextify()    </p>
                         </div>
                     </div>
                 </div>
@@ -103,17 +103,20 @@
                 <div class="card gray-color  darken-1">
                     <a class="btn-floating halfway-fab waves-effect waves-light red"  onclick="prevStep(3)"><i class="material-icons">arrow_forward</i></a>
                     <div class="card-content white-text">
-                        <span class="card-title center"> اطلاعات شخصی  </span>
+                        <span class="card-title center black-text"> اطلاعات شخصی  </span>
                         <br>
-                        <p class="center"> اطلاعات شخصی خود را اینجا وارد کنید</p>
+                        <p class="center black-text"> اطلاعات شخصی خود را اینجا وارد کنید</p>
                         <br>
                         <div class="card  ">
                             <div class="card-content grey darken-4 center white-text">
                                 <form asp-action="Reservation" asp-asp-controller="Post" method="post">
-                                 <p><input name="name" type="text" placeholder="نام و نام خانوادگی"/></p>
+                                      <br>
+                                <p><input name="name" type="text" placeholder="نام و نام خانوادگی"/></p>
+                                 <br>
                                 <p><input name="mobile" type="number" placeholder=" شماره موبایل  "/></p>
                                 <input name="option" id=option type="hidden" value="">
                                 <input name="date" id=date type="hidden" value="">
+                                  <br>
                                   <button class="next-btn" type="submit">ارسال</button>
                               </form>
                             </div>

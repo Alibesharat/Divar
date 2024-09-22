@@ -26,8 +26,6 @@
         <li><a class="white-text" asp-action="KnowledgeBase" asp-controller="Home">پایگاه دانش</a></li>
         <li><a class="white-text" asp-action="ContactUs" asp-controller="Home"> تماس با ما</a></li>
         <li><a class="white-text" asp-action="AboutUs" asp-controller="Home">  درباره ما  </a></li>
-        <li><a class="white-text" asp-action="terms" asp-controller="Home"> شرایط استفاده  </a></li>
-        <li><a class="white-text" asp-action="privacy" asp-controller="Home">  حریم خصوصی  </a></li>
 
       </ul>
     </div>
@@ -41,11 +39,12 @@
           </a>
           <ul>
             <li><a asp-action="index" asp-controller="inquery" class="btn waves-effect waves-light btn-long  wav red">درخواست سریع کارشناس</a></li>
-            <li><a href="https://wa.link/t8a967"  target="_blank" class="btn waves-effect waves-light btn-long larg yellow darken-1">تماس در واتساپ </a></li>
+            <li><a href="https://wa.link/0u8wa4"  target="_blank" class="btn waves-effect waves-light btn-long larg yellow darken-1">تماس در واتساپ </a></li>
             <li><a href="tel:+989195410188" class="btn waves-effect waves-light btn-long green">تماس با پشتیبانی</a></li>
           </ul>
         </div>
     </div>
+   
      <script src="~/js/materialize.js"></script>
 
   <script>
@@ -54,7 +53,14 @@
      var elems = document.querySelectorAll('.fixed-action-btn');
      var instances = M.FloatingActionButton.init(elems, {
      direction: 'top',hoverEnabled: true});});
-  
+
+
+      document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, options);
+  });
+
+ 
         
   </script>
     @await RenderSectionAsync("Scripts", required: false)

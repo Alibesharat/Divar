@@ -28,6 +28,15 @@
           }
         }
       },
+      "Melipayamak.RestClient/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/mpNuget.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/mpNuget.dll": {}
+        }
+      },
       "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
         "type": "package",
         "compile": {
@@ -1089,6 +1098,19 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "Melipayamak.RestClient/1.0.0": {
+      "sha512": "Xe6yQXhL75Mg+QfmmOX/Q+2elNVczyPeBfBYDsFQonVTGMYND0NUkbXvL5VtIK+sGdRxhfB+oB1oU/M/RE58tA==",
+      "type": "package",
+      "path": "melipayamak.restclient/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "lib/netstandard2.0/mpNuget.dll",
+        "melipayamak.restclient.1.0.0.nupkg.sha512",
+        "melipayamak.restclient.nuspec"
       ]
     },
     "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
@@ -2614,6 +2636,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "DNTPersianUtils.Core >= 6.3.1",
+      "Melipayamak.RestClient >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.8",
       "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.8",
       "Newtonsoft.Json >= 13.0.3"
@@ -2664,6 +2687,10 @@
           "DNTPersianUtils.Core": {
             "target": "Package",
             "version": "[6.3.1, )"
+          },
+          "Melipayamak.RestClient": {
+            "target": "Package",
+            "version": "[1.0.0, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

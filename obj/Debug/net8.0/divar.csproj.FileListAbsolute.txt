@@ -129,3 +129,4 @@ E:\apps\dv\divar\obj\Debug\net8.0\refint\divar.dll
 E:\apps\dv\divar\obj\Debug\net8.0\divar.pdb
 E:\apps\dv\divar\obj\Debug\net8.0\divar.genruntimeconfig.cache
 E:\apps\dv\divar\obj\Debug\net8.0\ref\divar.dll
+E:\apps\dv\divar\bin\Debug\net8.0\mpNuget.dll

@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using divar.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -15,6 +16,13 @@ namespace Microsoft.Extensions.DependencyInjection
           var httpClient = provider.GetRequiredService<IHttpClientFactory>().CreateClient();
           return new DivarService(httpClient, apiKey);
       });
+      }
+
+
+        public static void AddSmsService(this IServiceCollection services)
+        {
+           
+            services.AddSingleton<SmsService>();
 
         }
     }
