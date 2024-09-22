@@ -13,6 +13,6 @@ namespace divar.DAL
         // The following configures EF to create a Sqlite database file in the
         // special "local" folder for your platform.
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite($"Data Source= ./Divar.db");
+            => options.UseSqlite($"Data Source= Divar.db");
     }
 }
