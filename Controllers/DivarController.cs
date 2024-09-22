@@ -42,7 +42,7 @@ namespace divar.Controllers
             {
                 status = "200",
                 message = "success",
-                url = $"https://1c77-2-176-118-229.ngrok-free.app/post/{postToken}"
+                url = $"https://sharifexperts.ir/Inquiry/{postToken}"
             };
 
             return Ok(response);
