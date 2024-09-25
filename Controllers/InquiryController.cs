@@ -51,7 +51,7 @@ public class InquiryController : Controller
     }
 
 
-    public IActionResult Reservation([FromForm] string name, string mobile, int option, int date)
+    public async Task<IActionResult> Reservation([FromForm] string name, string mobile, int option, int date)
     {
         var _date = DateTime.UtcNow.AddDays(date);
 
@@ -66,7 +66,10 @@ public class InquiryController : Controller
         _Db.SaveChanges();
 
           string message = $"{name} عزیز درخواست وقت مشاوره شما با موفقیت انجام شد . کارشناس آرمین مسعودی جهت هماهنگی های بیشتر با شما تماس میگیرد";
-         _sms.SendMessage(mobile,message);
+         _sms.SendMessageToCustomer(name,"آرمین مسعودی",mobile);
+         _sms.SendMessageExpert(name,"آرمین مسعودی","09190078747");
+          
+
          ViewBag.message = message;
        
         return View("result");
