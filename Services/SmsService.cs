@@ -28,13 +28,13 @@ namespace divar.Services
         public void SendMessageToCustomer(string customerName,string expertName,string to)
         {
             string[] args =[customerName,expertName];
-            client.PostAsJsonAsync($"api/send/shared/{ApiToken}", new { _CustomerBodyId, to, args });
-               
+            client.PostAsJsonAsync($"api/send/shared/{ApiToken}", new { bodyId= _CustomerBodyId, to, args });
+
         }
         public void SendMessageExpert(string customerName,string expertName,string to)
         {
              string[] args =[expertName,customerName];
-             client.PostAsJsonAsync($"api/send/shared/{ApiToken}", new { _ExpertBodyId, to, args });
+             client.PostAsJsonAsync($"api/send/shared/{ApiToken}", new { bodyId= _ExpertBodyId, to, args });
                
         }
         
