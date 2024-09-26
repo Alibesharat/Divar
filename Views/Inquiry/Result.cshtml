@@ -17,6 +17,7 @@
                         <br>
                         <p class="center black-text"> @ViewBag.message  </p>
                         <br>
+                        <p>تا لحظاتی دیگر به دیوار منتقل می شوید  اگر نشدید <a href="https://divar.ir"> اینجا </a> کلیک کنید</p>
                     </div>
                       @(await Component.InvokeAsync("FooterNav"))
                 </div>
@@ -29,6 +30,11 @@
 
  @section Scripts
  {
+    <script>
+         setTimeout(function() {
+        window.location.href = "https://divar.ir";
+    }, 5000); // Adjust the delay time (5000 ms = 5 seconds) as needed
+    </script>
  }
 
   
