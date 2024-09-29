@@ -17,6 +17,9 @@ namespace divar.DAL.Models
         public DateTime BookTime { get; set; }
 
         public string PostToken {get;set;}
+
+        public ReviewStatus ReviewStatus {get;set;}
+
     }
 
 
@@ -27,4 +30,16 @@ namespace divar.DAL.Models
         standard = 2,
         vip = 3
     }
+
+
+   public enum ReviewStatus: int
+{
+    InquiryReceived = 1,    // Customer inquiry is received
+    ExpertAssigned = 2,     // An expert has been assigned to the inquiry
+    ReviewInProgress = 3,   // The expert is currently reviewing the printer
+    ReviewCompleted = 4,     // The expert has completed the review
+    FeedbackSubmitted = 5,   // The expert has submitted their feedback
+    NotificationSent = 6    // The buyer has been notified of the expert's opinion
+}
+
 }
