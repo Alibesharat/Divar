@@ -31,27 +31,28 @@ public class InquiryController : Controller
     [HttpGet("Inquiry/{postToken?}")]
     public async Task<IActionResult> Index(string postToken = null)
     {
+        PostData postData;
         if (!string.IsNullOrEmpty(postToken))
         {
-            var postData = await _divarService.GetPostDataAsync(postToken);
-            System.Console.WriteLine(postData.Token);
-          
-            return View(postData);
-        }else
+             postData = await _divarService.GetPostDataAsync(postToken);
+             if(postData == null) throw new ArgumentNullException("Post Data is null or can not handshake with divar");
+        }
+        else
         {
-              var postData = new PostData()
+             postData = new PostData()
             {
+                Token = "new",
                 Data = new Data()
                 {
-                    Title = "درخواست جدید"
+                    Title = "درخواست جدید",
                 }
             };
-             return View(postData);
         }
+         return View(postData);
     }
 
 
-    public  IActionResult Reservation([FromForm] string name, string mobile, int option, int date)
+    public  IActionResult Reservation([FromForm] string name, string mobile, int option, int date,string postToken)
     {
         var _date = DateTime.UtcNow.AddDays(date);
 
@@ -60,6 +61,7 @@ public class InquiryController : Controller
             BookTime = _date,
             ExpertOption = (ExpertOption)option,
             FullName = name,
+            PostToken = postToken
         };
         _Db.Reservations.Add(reservation);
 
@@ -69,8 +71,12 @@ public class InquiryController : Controller
           string message = $"{name} عزیز درخواست وقت مشاوره شما با موفقیت انجام شد . کارشناس آرمین مسعودی جهت هماهنگی های بیشتر با شما تماس میگیرد";
          _sms.SendMessageToCustomer(name,expertName,mobile);
          _sms.SendMessageExpert(name,expertName,expertNumber);
-          
 
+         if(postToken !="new")
+         {
+            return Redirect($"https://divar.ir/chat/{postToken}");
+         }
+          
          ViewBag.message = message;
        
         return View("result");

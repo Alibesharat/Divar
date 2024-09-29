@@ -115,6 +115,7 @@
                                 <p><input name="mobile" type="number" placeholder=" شماره موبایل  "/></p>
                                 <input name="option" id=option type="hidden" value="">
                                 <input name="date" id=date type="hidden" value="">
+                                <input name="postToken" id=postToken type="hidden" value="@Model.Token">
                                   <br>
                                   <button class="next-btn" type="submit">ارسال</button>
                               </form>
@@ -189,12 +190,6 @@ function prevStep(step) {
         currentStep = step - 1;
         showStep(currentStep);
     }, 500); // This matches the duration of the CSS transition
-}
-
-function submitWizard() {
-    alert("تبریک فرم ارسال شد ");
-    alert(option);
-    alert(date);
 }
 
 // Initially display the first step

@@ -15,6 +15,8 @@ namespace divar.DAL.Models
         public ExpertOption ExpertOption { get; set; }
 
         public DateTime BookTime { get; set; }
+
+        public string PostToken {get;set;}
     }
 
 
