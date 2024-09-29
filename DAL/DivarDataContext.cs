@@ -16,7 +16,7 @@ namespace divar.DAL
         // special "local" folder for your platform.
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-          options.UseSqlite($"Data Source=divar.db");
+          options.UseSqlite($"Data Source=SharifExpert.db");
         }
 
         public void Initialize()
