@@ -7,6 +7,7 @@ namespace divar.DAL
     {
 
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Expert> Experts { get; set; }
 
         public DivarDataContext()
         {

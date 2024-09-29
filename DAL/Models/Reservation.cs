@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace divar.DAL.Models
@@ -19,6 +20,11 @@ namespace divar.DAL.Models
         public string PostToken {get;set;}
 
         public ReviewStatus ReviewStatus {get;set;}
+
+
+        [ForeignKey(nameof(Expert))]
+        public int ExpertId { get; set; }
+        public Expert  Expert {get;set;}
 
     }
 
