@@ -66,7 +66,8 @@ public class InquiryController : Controller
             FullName = name,
             PostToken = postToken,
             ExpertId = expert.ExpertId,
-            Expert = expert
+            Expert = expert,
+            PhoneNumber = mobile
         };
         _Db.Reservations.Add(reservation);
 
