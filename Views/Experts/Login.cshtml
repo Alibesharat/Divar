@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "درباره ما";
+    ViewData["Title"] = " ورود کارشناس ";
 }
 @model divar.ViewModels.LoginViewModel
 
@@ -10,20 +10,20 @@
     <div class="col s12 m6 offset-m3">
       <div class="card gray-color">
         <div class="card-content black-text">
-          <span class="card-title center">  Login    </span>
+          <span class="card-title center">  ورود کارشناس    </span>
           </br>
         <form asp-action="Login" method="post">
           <div class="form-group">
-              <label asp-for="PhoneNumber"></label>
+              <label asp-for="PhoneNumber"> نام کاربری  </label>
               <input asp-for="PhoneNumber" class="form-control" />
-              <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+              <span asp-validation-for="PhoneNumber" class="text-danger"> </span>
           </div>
           <div class="form-group">
-              <label asp-for="Password"></label>
+              <label asp-for="Password"> رمز عبور  </label>
               <input asp-for="Password" class="form-control" type="password" />
-              <span asp-validation-for="Password" class="text-danger"></span>
+              <span asp-validation-for="Password" class="text-danger"> </span>
           </div>
-              <button type="submit" class="btn btn-primary">Login</button>
+              <button type="submit" class="btn grren">ورود </button>
         </form>
               
         </div>

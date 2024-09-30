@@ -1,17 +1,19 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using divar.Services;
 using divar.ViewModels;
 using divar.DAL;
 using divar.DAL.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace divar.Controllers;
 
 /// <summary>
 ///Divar posts
 /// </summary>
+[Route("Experts")]
+ [Authorize]
 public class ExpertsController : Controller
 {
     private readonly ILogger<ExpertsController> _logger;
@@ -20,8 +22,6 @@ public class ExpertsController : Controller
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-
-
     public ExpertsController(ILogger<ExpertsController> logger , DivarDataContext db,IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
@@ -29,12 +29,17 @@ public class ExpertsController : Controller
         _httpContextAccessor = httpContextAccessor;
     }
 
+
+    [HttpGet(nameof(Index))]
+   
+
     public IActionResult Index()
     {
         return View();
     }
 
     [HttpGet("Login")]
+    [AllowAnonymous]
     public  IActionResult Login()
     {
          return View();
@@ -81,6 +86,9 @@ public class ExpertsController : Controller
         await _httpContextAccessor.HttpContext.SignOutAsync("Cookies");
         return RedirectToAction("Index", "Home");
     }
+
+
+    
 
 
 

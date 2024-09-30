@@ -15,6 +15,19 @@ builder.Services.ConfigureApplicationCookie(options =>
         options.LoginPath = "/Experts/Login"; // Redirect to login page
         options.AccessDeniedPath = "/Experts/AccessDenied"; // Redirect if access denied
 });
+
+// Set default authentication scheme
+builder.Services.AddAuthentication("Cookies")
+        .AddCookie("Cookies", options =>
+        {
+            options.Cookie.HttpOnly = true;
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+            options.SlidingExpiration = true;
+            options.LoginPath = "/Experts/Login"; // Ensure this path is correct
+            options.AccessDeniedPath = "/Account/AccessDenied"; // Redirect if access denied
+        });
+
+
 builder.Services.AddHttpContextAccessor(); 
 var app = builder.Build();
 
@@ -29,12 +42,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication(); 
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

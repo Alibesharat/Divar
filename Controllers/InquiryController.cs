@@ -56,21 +56,24 @@ public class InquiryController : Controller
     {
         var _date = DateTime.UtcNow.AddDays(date);
 
+        var expert = _Db.Experts.Find(1);
+
         var reservation = new Reservation()
         {
             BookTime = _date,
             ExpertOption = (ExpertOption)option,
             FullName = name,
-            PostToken = postToken
+            PostToken = postToken,
+            ExpertId = expert.ExpertId,
+            Expert = expert
         };
         _Db.Reservations.Add(reservation);
 
         _Db.SaveChanges();
-          string expertName = "آرمین مسعودی";
-          string expertNumber = "09190078747";
-          string message = $"{name} عزیز درخواست وقت مشاوره شما با موفقیت انجام شد . کارشناس آرمین مسعودی جهت هماهنگی های بیشتر با شما تماس میگیرد";
-         _sms.SendMessageToCustomer(name,expertName,mobile);
-         _sms.SendMessageExpert(name,expertName,expertNumber);
+         
+         string message = $"{name} عزیز درخواست وقت مشاوره شما با موفقیت انجام شد . کارشناس آرمین مسعودی جهت هماهنگی های بیشتر با شما تماس میگیرد";
+         _sms.SendMessageToCustomer(name,expert.FullName,mobile);
+         _sms.SendMessageExpert(name,expert.FullName,expert.PhoneNumber);
 
          if(postToken !="new")
          {
@@ -78,8 +81,7 @@ public class InquiryController : Controller
          }
           
          ViewBag.message = message;
-       
-        return View("result");
+         return View("result");
     }
 
 
