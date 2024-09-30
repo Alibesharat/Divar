@@ -10,28 +10,32 @@
   <div class="col s12 m6 offset-m3">
     <div class="card gray-color">
       <div class="card-content black-text">
-        <span class="card-title center"> @Model.FullName </span>
-
-        <div class="row">
-          @foreach (var item in Model.Reservations)
-          {
-            <div class="col">
-              <div class="card gray-color">
-                <div class="card-content black-text">
-                    <span class="card-title center"> @item.BookTime.ToPersianDateTextify()    </span>
-                     
-                    <p>@item.PostTitle</p>
-                    <p>@item.FullName</p>
-                    <p>@item.ExpertOption</p>
-                    <p>@item.ReviewStatus</p>
-                </div>
-              </div>
-            </div>
-          }
-        </div>
+        <span class="card-title center">مهندس @Model.FullName    </span>
 
       </div>
 
     </div>
   </div>
 </div>
+
+ <div class="row">
+          @foreach (var item in Model.Reservations)
+          {
+            <div class="col">
+              <div class="card gray-color">
+                <div class="card-content black-text">
+                    <span class="card-title center"> @item.PostTitle    </span>
+                      <br/>
+                    <p>تاریخ درخواست بازدید : @item.BookTime.ToPersianDateTextify()  </p>
+                    <br/>
+                    <p>نام درخواست دهنده : @item.FullName</p>
+                     <br/>
+                    <p> نوع سفارش : @item.ExpertOption</p>
+                     <br/>
+                    <p> وضعیت سفارش : @item.ReviewStatus</p>
+                     <br/>
+                </div>
+              </div>
+            </div>
+          }
+        </div>

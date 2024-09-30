@@ -67,13 +67,14 @@ public class InquiryController : Controller
             PostToken = postToken,
             ExpertId = expert.ExpertId,
             Expert = expert,
-            PhoneNumber = mobile
+            PhoneNumber = mobile,
+            TrackingCode = GenerateTackingCode()
         };
         _Db.Reservations.Add(reservation);
 
         _Db.SaveChanges();
          
-         string message = $"{name} عزیز درخواست وقت مشاوره شما با موفقیت انجام شد . کارشناس آرمین مسعودی جهت هماهنگی های بیشتر با شما تماس میگیرد";
+         string message = $"{reservation.FullName} عزیز  سفارش شما با کد رهگیری  {reservation.TrackingCode} با موفقیت ثبت شد ، کارشناس {expert.FullName} جهت هماهنگی بیشتر با شما تماس میگیرد . ";
          _sms.SendMessageToCustomer(name,expert.FullName,mobile);
          _sms.SendMessageExpert(name,expert.FullName,expert.PhoneNumber);
 
@@ -86,8 +87,14 @@ public class InquiryController : Controller
          return View("result");
     }
 
+    private string GenerateTackingCode()
+    {
+        Random r = new Random(); 
+        int randomNumber = r.Next(1000, 10000);
+        string trackingCode = $"sh-{randomNumber}";
+        return trackingCode;
 
-
+    }
 
     public IActionResult Privacy()
     {

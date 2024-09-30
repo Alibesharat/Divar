@@ -24,6 +24,12 @@ namespace divar.DAL.Models
 
         public ReviewStatus ReviewStatus {get;set;}
 
+        // نظر نهایی کارشناس
+        public string ExpertReviewResult {get;set;}
+
+
+        public string TrackingCode {get;set;}
+
 
         [ForeignKey(nameof(Expert))]
         public int ExpertId { get; set; }
@@ -34,21 +40,27 @@ namespace divar.DAL.Models
 
     public enum ExpertOption : int
     {
-
+        
+        [Display(Name = "پایه")]
         basic = 1,
+        [Display(Name = "استاندارد")]
         standard = 2,
+        [Display(Name = "وی آی پی")]
         vip = 3
     }
 
 
    public enum ReviewStatus: int
-{
-    InquiryReceived = 1,    // Customer inquiry is received
-    ExpertAssigned = 2,     // An expert has been assigned to the inquiry
-    ReviewInProgress = 3,   // The expert is currently reviewing the printer
-    ReviewCompleted = 4,     // The expert has completed the review
-    FeedbackSubmitted = 5,   // The expert has submitted their feedback
-    NotificationSent = 6    // The buyer has been notified of the expert's opinion
-}
+    {
+        [Display(Name = "درخواست مشتری")]
+        InquiryReceived = 1,    // Customer inquiry is received
+        [Display(Name = "تخصیص کارشناس")]
+        ExpertAssigned = 2,     // An expert has been assigned to the inquiry
+        
+        [Display(Name = "در حال کارشناسی")]
+        ReviewInProgress = 3,   // The expert is currently reviewing the printer
+        [Display(Name = "پایان کارشناسی")]
+        ReviewCompleted = 4,     // The expert has completed the review
+    }
 
 }
