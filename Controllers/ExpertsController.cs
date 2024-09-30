@@ -6,6 +6,8 @@ using divar.DAL.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using divar.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace divar.Controllers;
 
@@ -13,7 +15,7 @@ namespace divar.Controllers;
 ///Divar posts
 /// </summary>
 [Route("Experts")]
- [Authorize]
+[Authorize]
 public class ExpertsController : Controller
 {
     private readonly ILogger<ExpertsController> _logger;
@@ -22,7 +24,7 @@ public class ExpertsController : Controller
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ExpertsController(ILogger<ExpertsController> logger , DivarDataContext db,IHttpContextAccessor httpContextAccessor)
+    public ExpertsController(ILogger<ExpertsController> logger, DivarDataContext db, IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
         _Db = db;
@@ -31,43 +33,50 @@ public class ExpertsController : Controller
 
 
     [HttpGet(nameof(Index))]
-   
+
 
     public IActionResult Index()
+    {
+        if (!User.Identity.IsAuthenticated)
+        {
+             return Unauthorized();
+        }
+        var expert = _Db.Experts.Include(c=>c.Reservations).FirstOrDefault(c => c.PhoneNumber == User.GetPhoneNumber());
+        return View(expert);
+    }
+
+    [HttpGet(nameof(Login))]
+    [AllowAnonymous]
+    public IActionResult Login()
     {
         return View();
     }
 
-    [HttpGet("Login")]
-    [AllowAnonymous]
-    public  IActionResult Login()
-    {
-         return View();
-    }
-
-    [HttpPost]
+    [HttpPost(nameof(Login))]
     [ValidateAntiForgeryToken]
-    public  async Task<IActionResult> Login(LoginViewModel model)
+    [AllowAnonymous]
+
+    public async Task<IActionResult> Login(LoginViewModel model)
     {
 
         if (ModelState.IsValid)
         {
-            var Expert =  _Db.Experts.FirstOrDefault(c=>c.PhoneNumber == model.PhoneNumber && c.Password == model.Password);
+            var Expert = _Db.Experts.FirstOrDefault(c => c.PhoneNumber == model.PhoneNumber && c.Password == model.Password);
             if (Expert is not null)
             {
                 //TODO :  sign-in
-                 var claims = new List<Claim>
+                var claims = new List<Claim>
                     {
                         new(ClaimTypes.MobilePhone, Expert.PhoneNumber),
                          new(ClaimTypes.Name, Expert.FullName)
                     };
-                    var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
-                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                    await _httpContextAccessor.HttpContext.SignInAsync("Cookies", claimsPrincipal, new AuthenticationProperties
-                    {
-                        IsPersistent = true,
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30) // Cookie expiration
-                    });
+                var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                await _httpContextAccessor.HttpContext.SignInAsync("Cookies", claimsPrincipal, new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30) // Cookie expiration
+                });
 
                 return RedirectToAction("Index", "Experts");
             }
@@ -76,8 +85,8 @@ public class ExpertsController : Controller
         return View(model);
     }
 
-    
 
+    [HttpGet(nameof(Logout))]
     public async Task<IActionResult> Logout()
     {
         await _httpContextAccessor.HttpContext.SignOutAsync("Cookies");
@@ -85,20 +94,15 @@ public class ExpertsController : Controller
     }
 
 
-    
 
 
 
 
-   
 
 
 
-   
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+
+
+
 }

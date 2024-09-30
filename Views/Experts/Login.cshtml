@@ -15,13 +15,13 @@
         <form asp-action="Login" method="post">
           <div class="form-group">
               <label asp-for="PhoneNumber"> نام کاربری  </label>
-              <input asp-for="PhoneNumber" class="form-control" />
+              <input asp-for="PhoneNumber" class="form-control black-text" />
               <span asp-validation-for="PhoneNumber" class="text-danger"> </span>
           </div>
           <div class="form-group">
               <label asp-for="Password"> رمز عبور  </label>
-              <input asp-for="Password" class="form-control" type="password" />
-              <span asp-validation-for="Password" class="text-danger"> </span>
+              <input asp-for="Password" class="form-control black-text" type="password" />
+              <span asp-validation-for="Password" class="text-danger "> </span>
           </div>
               <button type="submit" class="btn grren">ورود </button>
         </form>

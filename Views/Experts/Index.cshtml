@@ -1,37 +1,33 @@
-﻿@{
-    ViewData["Title"] = " داشبورد کارشناس ";
+﻿@model divar.DAL.Models.Expert
+@{
+  ViewData["Title"] = " داشبورد کارشناس ";
 }
 
 
-   <div class="row">
-    </br></br>
-    <div class="col s12 m6 offset-m3">
-      <div class="card gray-color">
-        <div class="card-content black-text">
-          <span class="card-title center">   داشبورد کارشناس     </span>
-          </br>
-        
-                <p style="text-align: justify; line-height: 30px; padding: 18px;">
-               <strong  class="highlight">   تیم متخصصین کارشناسان شریف</strong> در تیرماه ۱۴۰۳ با هدف ایجاد بستری امن و قابل اعتماد برای خرید و فروش وسایل الکترونیکی و مکانیکی، اعم از نو و کارکرده، فعالیت خود را آغاز کرد. این تیم تحت نظارت و پشتیبانی <strong class="highlight">گروه فناوری و توسعه راژیس</strong>، که یکی از پیشروترین نهادها در عرصه فناوری و توسعه است، به وجود آمده است تا شما هم‌میهنان عزیز در هر نقطه از ایران بتوانید با اطمینان خاطر و به دور از هر گونه ریسک و خطر، اقدام به خرید یا فروش کالاهای خود نمایید.
-                     کارشناسان شریف با تمرکز بر ایجاد شفافیت در معاملات و جلوگیری از هر گونه کلاهبرداری یا سوءاستفاده، فضایی امن و مطمئن را برای کاربران فراهم کرده است. هدف این مجموعه، ارائه خدماتی است که به کاربران اجازه دهد بدون نگرانی از وجود افراد سودجو، با خیال راحت و امنیت کامل، معاملات خود را انجام دهند. بنابراین، چه در پی خرید وسایل نو باشید و چه کارکرده، این بستر به گونه‌ای طراحی شده است که به شما کمک می‌کند با آرامش و امنیت کامل خرید یا فروش موفقی را تجربه کنید.
-                </p>
-                </br>
-                <span class="card-title center">خدمات ما</span>
-                <ul  class="details">
-                    <li>ارزیابی و مشاوره در خرید دستگاه‌های اداری</li>
-                    <li>بررسی کیفیت و شرایط دستگاه‌های موجود</li>
-                    <li>راهنمایی در انتخاب بهترین گزینه‌ها</li>
-                    <li>پشتیبانی و خدمات پس از فروش</li>
-                </ul>
+
+<div class="row">
+  </br></br>
+  <div class="col s12 m6 offset-m3">
+    <div class="card gray-color">
+      <div class="card-content black-text">
+        <span class="card-title center"> @Model.FullName </span>
+
+        <div class="row">
+          @foreach (var item in Model.Reservations)
+          {
+            <div class="col">
+              <div class="card gray-color">
+                <div class="card-content black-text">
+                          <span class="card-title center"> @item.PostToken </span>
+
+                </div>
+              </div>
+            </div>
+          }
         </div>
-        @(await Component.InvokeAsync("FooterNav"))
-     
+
       </div>
+
     </div>
   </div>
-
-    
-
-
-
-
+</div>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "42ZC1lPLih9ISwc7ob1lU3paZ/gQ4mr/vqnpzEcW7/K6EPnYY3m9Kappa3zwv44rUtU6IqHQjLoXFi2lwk2HWA==",
+  "dgSpecHash": "/IQtiTRBi7rS+oi/qV336P0/ur6jORyBgaxIL4AxLG9LsuqJd1orho4rIVbu6kLxFfrnJ+kEb8xPn2tFoDwbtw==",
   "success": true,
-  "projectFilePath": "E:\\apps\\dv\\divar\\divar.csproj",
+  "projectFilePath": "e:\\apps\\dv\\divar\\divar.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MOHAMMAD\\.nuget\\packages\\dntpersianutils.core\\6.3.1\\dntpersianutils.core.6.3.1.nupkg.sha512",
     "C:\\Users\\MOHAMMAD\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

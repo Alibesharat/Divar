@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\apps\\dv\\divar\\divar.csproj": {}
+    "e:\\apps\\dv\\divar\\divar.csproj": {}
   },
   "projects": {
-    "E:\\apps\\dv\\divar\\divar.csproj": {
+    "e:\\apps\\dv\\divar\\divar.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\apps\\dv\\divar\\divar.csproj",
+        "projectUniqueName": "e:\\apps\\dv\\divar\\divar.csproj",
         "projectName": "divar",
-        "projectPath": "E:\\apps\\dv\\divar\\divar.csproj",
+        "projectPath": "e:\\apps\\dv\\divar\\divar.csproj",
         "packagesPath": "C:\\Users\\MOHAMMAD\\.nuget\\packages\\",
-        "outputPath": "E:\\apps\\dv\\divar\\obj\\",
+        "outputPath": "e:\\apps\\dv\\divar\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\MOHAMMAD\\AppData\\Roaming\\NuGet\\NuGet.Config"
