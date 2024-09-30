@@ -79,7 +79,7 @@ public class InquiryController : Controller
 
          if(postToken !="new")
          {
-            return Redirect($"https://divar.ir/chat/{postToken}");
+            return Redirect($"https://divar.ir");
          }
           
          ViewBag.message = message;
