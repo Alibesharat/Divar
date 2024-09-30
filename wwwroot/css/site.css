@@ -150,3 +150,7 @@ input, textarea, select { font-family:inherit; color: whitesmoke}
     text-shadow: -2px 5px 9px rgba(128, 124, 0, 0.82);
 
 }
+
+div:where(.swal2-container) .swal2-select {
+    max-width: 88% !important;
+}
