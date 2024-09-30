@@ -86,6 +86,29 @@ public class ExpertsController : Controller
     }
 
 
+
+    public IActionResult UpdateReservation(int id, int reviewStatus , string expertReviewResult)
+    {
+        var Reservation = _Db.Reservations.Find(id);
+        if(Reservation is null)
+        {
+            return NotFound();
+        }
+
+        var expert = _Db.Experts.FirstOrDefault(c=>c.PhoneNumber ==  User.GetPhoneNumber());
+        if(expert is null || expert.ExpertId == Reservation.ExpertId)
+        {
+            return NotFound();
+        }
+
+        Reservation.ReviewStatus = (ReviewStatus)reviewStatus;
+        Reservation.ExpertReviewResult = expertReviewResult;
+        _Db.Reservations.Update(Reservation);
+        _Db.SaveChanges();
+        return Ok();
+    }
+
+
     [HttpGet(nameof(Logout))]
     public async Task<IActionResult> Logout()
     {
