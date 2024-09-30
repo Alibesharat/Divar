@@ -76,10 +76,7 @@ public class ExpertsController : Controller
         return View(model);
     }
 
-    public IActionResult AccessDenied()
-    {
-        return Ok("You are not access to this page ");
-    }
+    
 
     public async Task<IActionResult> Logout()
     {

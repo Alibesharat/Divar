@@ -48,6 +48,12 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult AccessDenied()
+    {
+        return Ok("You are not access to this page ");
+    }
+
+
    
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

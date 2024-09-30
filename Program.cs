@@ -13,7 +13,7 @@ builder.Services.ConfigureApplicationCookie(options =>
         options.ExpireTimeSpan = TimeSpan.FromDays(30); // Set expiration time
         options.SlidingExpiration = true; // Reset the expiration time on each request
         options.LoginPath = "/Experts/Login"; // Redirect to login page
-        options.AccessDeniedPath = "/Experts/AccessDenied"; // Redirect if access denied
+        options.AccessDeniedPath = "/Home/AccessDenied"; // Redirect if access denied
 });
 
 // Set default authentication scheme
@@ -24,7 +24,7 @@ builder.Services.AddAuthentication("Cookies")
             options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
             options.SlidingExpiration = true;
             options.LoginPath = "/Experts/Login"; // Ensure this path is correct
-            options.AccessDeniedPath = "/Account/AccessDenied"; // Redirect if access denied
+            options.AccessDeniedPath = "/Home/AccessDenied"; // Redirect if access denied
         });
 
 
