@@ -130,3 +130,10 @@ E:\apps\dv\divar\obj\Debug\net8.0\divar.pdb
 E:\apps\dv\divar\obj\Debug\net8.0\divar.genruntimeconfig.cache
 E:\apps\dv\divar\obj\Debug\net8.0\ref\divar.dll
 E:\apps\dv\divar\bin\Debug\net8.0\mpNuget.dll
+E:\apps\dv\divar\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+E:\apps\dv\divar\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+E:\apps\dv\divar\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+E:\apps\dv\divar\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+E:\apps\dv\divar\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
+E:\apps\dv\divar\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+E:\apps\dv\divar\bin\Debug\net8.0\System.Security.Permissions.dll
