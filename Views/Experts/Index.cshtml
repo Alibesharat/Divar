@@ -22,7 +22,7 @@
           @foreach (var item in Model.Reservations)
           {
             <div class="col">
-              <div class="card gray-color">
+              <div class="card gray-color" onclick="fireUp(@item.Id)">
                 <div class="card-content black-text">
                     <span class="card-title center"> @item.PostTitle    </span>
                       <br/>
@@ -39,3 +39,75 @@
             </div>
           }
         </div>
+
+
+   
+<script>
+    async function fireUp(reservationId) {
+        const { value: reviewStatus } = await Swal.fire({
+            title: "تغییر وضعیت سفارش",
+            input: "select",
+            inputOptions: {
+                3: "در حال کارشناسی",     // ReviewInProgress
+                4: "پایان کارشناسی"       // ReviewCompleted
+            },
+            inputPlaceholder: "انتخاب کنید",
+            showCancelButton: true,
+            inputValidator: (value) => {
+                return new Promise((resolve) => {
+                    if (!value) {
+                        resolve("لطفاً یک وضعیت را انتخاب کنید!"); // Prompt if no selection
+                    } else {
+                        resolve();
+                    }
+                });
+            }
+        });
+
+        if (reviewStatus) {
+            // Ask for expert review result
+            const { value: expertReviewResult } = await Swal.fire({
+                title: 'نتیجه کارشناسی',
+                input: 'textarea',
+                inputPlaceholder: 'لطفاً نتیجه کارشناسی را وارد کنید...',
+                showCancelButton: true,
+                confirmButtonText: 'تأیید'
+            });
+
+            if (expertReviewResult) {
+                // Update reservation with the selected status and review result
+                await updateReservation(reservationId, reviewStatus, expertReviewResult);
+            }
+        }
+    }
+
+    async function updateReservation(reservationId, reviewStatus, expertReviewResult) {
+        try {
+            const response = await fetch('/Experts/UpdateReservation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': $('input[name="__RequestVerificationToken"]').val() // CSRF token if needed
+                },
+                body: JSON.stringify({
+                    id: reservationId,
+                    reviewStatus: reviewStatus,
+                    expertReviewResult: expertReviewResult
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                Swal.fire(`Error: ${errorData}`);
+            } else {
+                Swal.fire('وضعیت سفارش با موفقیت بروزرسانی شد.'); // Success message
+               setTimeout(function(){
+   window.location.reload();
+}, 5000);
+            }
+        } catch (error) {
+            Swal.fire(`Request failed: ${error}`); // Handle errors
+        }
+    }
+</script>
+

@@ -39,9 +39,9 @@ public class ExpertsController : Controller
     {
         if (!User.Identity.IsAuthenticated)
         {
-             return Unauthorized();
+            return Unauthorized();
         }
-        var expert = _Db.Experts.Include(c=>c.Reservations).FirstOrDefault(c => c.PhoneNumber == User.GetPhoneNumber());
+        var expert = _Db.Experts.Include(c => c.Reservations).FirstOrDefault(c => c.PhoneNumber == User.GetPhoneNumber());
         return View(expert);
     }
 
@@ -86,28 +86,42 @@ public class ExpertsController : Controller
     }
 
 
-
-    public IActionResult UpdateReservation(int id, int reviewStatus , string expertReviewResult)
+    [HttpPost("UpdateReservation")]
+    public IActionResult UpdateReservation([FromBody] UpdateReservationRequest request)
     {
-        var Reservation = _Db.Reservations.Find(id);
-        if(Reservation is null)
+        var reservation = _Db.Reservations.Find(request.Id);
+        if (reservation is null)
         {
-            return NotFound();
+            return NotFound("Reservation not found.");
         }
 
-        var expert = _Db.Experts.FirstOrDefault(c=>c.PhoneNumber ==  User.GetPhoneNumber());
-        if(expert is null || expert.ExpertId == Reservation.ExpertId)
+        var expert = _Db.Experts.FirstOrDefault(c => c.PhoneNumber == User.GetPhoneNumber());
+        if (expert is null || expert.ExpertId != reservation.ExpertId)
         {
-            return NotFound();
+            return NotFound("Expert not found or not authorized to update this reservation.");
         }
 
-        Reservation.ReviewStatus = (ReviewStatus)reviewStatus;
-        Reservation.ExpertReviewResult = expertReviewResult;
-        _Db.Reservations.Update(Reservation);
+        // Validate reviewStatus against enum
+        if (!Enum.IsDefined(typeof(ReviewStatus), request.ReviewStatus))
+        {
+            return BadRequest("Invalid review status.");
+        }
+
+        reservation.ReviewStatus = (ReviewStatus)request.ReviewStatus;
+        reservation.ExpertReviewResult = request.ExpertReviewResult;
+
+        _Db.Reservations.Update(reservation);
         _Db.SaveChanges();
-        return Ok();
+
+        return Ok(); // Optionally return the updated reservation
     }
 
+    public class UpdateReservationRequest
+    {
+        public int Id { get; set; }
+        public int ReviewStatus { get; set; }
+        public string ExpertReviewResult { get; set; }
+    }
 
     [HttpGet(nameof(Logout))]
     public async Task<IActionResult> Logout()
