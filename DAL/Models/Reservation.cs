@@ -45,7 +45,7 @@ namespace divar.DAL.Models
         basic = 1,
         [Display(Name = "استاندارد")]
         standard = 2,
-        [Display(Name = "وی آی پی")]
+        [Display(Name = "ویژه")]
         vip = 3
     }
 

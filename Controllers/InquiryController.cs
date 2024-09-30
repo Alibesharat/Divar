@@ -68,7 +68,8 @@ public class InquiryController : Controller
             ExpertId = expert.ExpertId,
             Expert = expert,
             PhoneNumber = mobile,
-            TrackingCode = GenerateTackingCode()
+            TrackingCode = GenerateTackingCode(),
+            ReviewStatus = ReviewStatus.ExpertAssigned
         };
         _Db.Reservations.Add(reservation);
 
