@@ -9,6 +9,9 @@ namespace divar.DAL.Models
         [Key]
         public int Id { get; set; }
 
+
+        public string PostTitle { get; set; }
+
         public string FullName { get; set; }
 
         public string PhoneNumber { get; set; }

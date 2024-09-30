@@ -36,6 +36,7 @@ namespace divar.Services
 
                 // Deserialize JSON to object
                 var postData = JsonConvert.DeserializeObject<PostData>(jsonResponse);
+               
 
                 return postData;
             }

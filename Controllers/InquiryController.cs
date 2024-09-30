@@ -52,7 +52,7 @@ public class InquiryController : Controller
     }
 
 
-    public  IActionResult Reservation([FromForm] string name, string mobile, int option, int date,string postToken)
+    public  IActionResult Reservation([FromForm]string postTitle, string name, string mobile, int option, int date,string postToken)
     {
         var _date = DateTime.UtcNow.AddDays(date);
 
@@ -60,6 +60,7 @@ public class InquiryController : Controller
 
         var reservation = new Reservation()
         {
+            PostTitle = postTitle,
             BookTime = _date,
             ExpertOption = (ExpertOption)option,
             FullName = name,

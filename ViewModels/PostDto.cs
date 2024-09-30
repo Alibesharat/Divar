@@ -9,6 +9,7 @@ namespace divar.ViewModels
         public string City { get; set; }
         public string District { get; set; }
         public Data Data { get; set; }
+
     }
 
     public class Data
