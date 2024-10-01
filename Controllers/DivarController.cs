@@ -33,7 +33,7 @@ namespace divar.Controllers
             var userId = divarRequest.user_id; // The user who requested app .
             var peerId = divarRequest.peer_id; //The other user in the chat .
             var postToken = divarRequest.post_token; // the ads token .
-            string redirectUrl = $"https://1163-2-176-95-255.ngrok-free.app/Inquiry/GetPostData";
+            string redirectUrl = $"https://f44f-204-18-233-125.ngrok-free.app/Inquiry/GetPostData";
              
             var postData = $"{userId}:{postToken}:{peerId}";
             string encodedPostData = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(postData));

@@ -70,12 +70,13 @@ namespace divar.Services
         {
             if (string.IsNullOrWhiteSpace(redirectUri)) throw new ArgumentException("RedirectUri must not be null or empty", nameof(redirectUri));
 
-            //TODO : it should be thers is problem here , in seding data with scope or others ...
-            string scopes = $"{DivarScope.USER_PHONE.GetDisplayName()}+{DivarScope.CHAT_MESSAGE_SEND}.{encodedPostData}";
-
-            //ChatScop : 
-
-            //&scope=USER_PHONE+POST_ADDON_CREATE.AZTH74V2
+            //BUG BUG : Double check the whole workFlow , it is not clear from third party ! 
+            
+            List<DivarScope> scopes =
+            [
+                DivarScope.USER_PHONE
+            ];
+            var scopeString = string.Join(" ", scopes.Select(s => s.ToString()));
 
             // URL encode redirectUri
             string encodedRedirectUri = Uri.EscapeDataString(redirectUri);
@@ -84,7 +85,7 @@ namespace divar.Services
             var authorizationUrl = $"https://api.divar.ir/oauth2/auth?response_type=code" +
                                    $"&client_id={_ClientId}" +
                                    $"&redirect_uri={encodedRedirectUri}" +
-                                   $"&scope={scopes}" +
+                                   $"&scope={Uri.EscapeDataString(scopeString)}" +
                                    $"&state={state}";
 
             return authorizationUrl;
