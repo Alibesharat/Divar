@@ -20,7 +20,7 @@ namespace divar.Controllers
 
 
         [HttpPost(nameof(StartChat))]
-        public async Task<IActionResult> StartChat([FromBody] DivarRequest divarRequest)
+        public IActionResult StartChat([FromBody] DivarRequest divarRequest)
         {
             Console.WriteLine("Divar is here ... ");
 
@@ -30,23 +30,21 @@ namespace divar.Controllers
                 return BadRequest("Invalid data received");
             }
 
-            // Example: L
             var userId = divarRequest.user_id; // The user who requested app .
             var peerId = divarRequest.peer_id; //The other user in the chat .
             var postToken = divarRequest.post_token; // the ads token .
-
-            var PostData = await _divarService.GetPostDataAsync(postToken);
-            Console.WriteLine(PostData.Data.Title);
-
-            var response = new
-            {
-                status = "200",
-                message = "success",
-                url = $"https://sharifexperts.ir/Inquiry/{postToken}"
-            };
-
-            return Ok(response);
+            string redirectUrl = $"https://sharifexperts.ir/Inquiry";
+            List<DivarScope> scopes =
+            [
+                DivarScope.CHAT_MESSAGE_SEND,
+                DivarScope.USER_PHONE
+            ];
+            string generatedUrl =  _divarService.GenerateAuthorizationUrl(redirectUrl,scopes,postToken);
+            return Redirect(generatedUrl);
         }
+
+
+        
 
     }
 }

@@ -28,13 +28,22 @@ public class InquiryController : Controller
         _Db.Initialize();
     }
 
-    [HttpGet("Inquiry/{postToken?}")]
-    public async Task<IActionResult> Index(string postToken = null)
+
+
+   
+
+
+    [HttpGet("Inquiry/{state}/{code}")]
+    public async Task<IActionResult> Index(string state,string code)
     {
+
+        string postToken = state;
         PostData postData;
         if (!string.IsNullOrEmpty(postToken))
         {
-             postData = await _divarService.GetPostDataAsync(postToken);
+            var accessToken = await _divarService.ExchangeCodeForAccessTokenAsync(code,"https://sharifexperts.ir/Inquiry");
+            System.Console.WriteLine("AccessToken",accessToken);
+             postData = await _divarService.GetPostDataAsync(postToken,accessToken);
              if(postData == null) throw new ArgumentNullException("Post Data is null or can not handshake with divar");
         }
         else
