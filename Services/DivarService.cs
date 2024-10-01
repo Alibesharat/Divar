@@ -1,3 +1,4 @@
+using divar.Extensions;
 using divar.ViewModels;
 using Newtonsoft.Json;
 
@@ -65,12 +66,16 @@ namespace divar.Services
         }
 
 
-        public string GenerateAuthorizationUrl(string redirectUri, List<DivarScope> scopes, string state)
+        public string GenerateAuthorizationUrl(string redirectUri, string state,string encodedPostData)
         {
             if (string.IsNullOrWhiteSpace(redirectUri)) throw new ArgumentException("RedirectUri must not be null or empty", nameof(redirectUri));
 
-            // Convert scope enums to a space-separated string
-            var scopeString = string.Join(" ", scopes.Select(s => s.ToString()));
+            //TODO : it should be thers is problem here , in seding data with scope or others ...
+            string scopes = $"{DivarScope.USER_PHONE.GetDisplayName()}+{DivarScope.CHAT_MESSAGE_SEND}.{encodedPostData}";
+
+            //ChatScop : 
+
+            //&scope=USER_PHONE+POST_ADDON_CREATE.AZTH74V2
 
             // URL encode redirectUri
             string encodedRedirectUri = Uri.EscapeDataString(redirectUri);
@@ -79,13 +84,12 @@ namespace divar.Services
             var authorizationUrl = $"https://api.divar.ir/oauth2/auth?response_type=code" +
                                    $"&client_id={_ClientId}" +
                                    $"&redirect_uri={encodedRedirectUri}" +
-                                   $"&scope={Uri.EscapeDataString(scopeString)}" +
+                                   $"&scope={scopes}" +
                                    $"&state={state}";
 
             return authorizationUrl;
         }
-
-
+   
         public async Task<string> ExchangeCodeForAccessTokenAsync(string code, string redirectUri)
         {
             if (string.IsNullOrWhiteSpace(code)) throw new ArgumentException("Code must not be null or empty", nameof(code));

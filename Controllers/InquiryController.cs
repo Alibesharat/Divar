@@ -8,7 +8,7 @@ using divar.DAL.Models;
 namespace divar.Controllers;
 
 /// <summary>
-///Divar posts
+///InquiryController
 /// </summary>
 public class InquiryController : Controller
 {
@@ -19,45 +19,54 @@ public class InquiryController : Controller
 
     private readonly SmsService _sms;
 
-    public InquiryController(ILogger<InquiryController> logger, DivarService divarService, DivarDataContext db,SmsService sms)
+    public InquiryController(ILogger<InquiryController> logger)
     {
         _logger = logger;
-        _divarService = divarService;
-        _Db = db;
-        _sms =sms;
-        _Db.Initialize();
+        _divarService = null;
+        _Db = null;
+        _sms =null  ;
+       // _Db.Initialize();
     }
 
 
 
-   
-
-
-    [HttpGet("Inquiry/{state}/{code}")]
-    public async Task<IActionResult> Index(string state,string code)
+ 
+    
+    public async Task<IActionResult> GetPostData(string state,string code)
     {
+       
+        System.Console.WriteLine($"state is {state}");
+        System.Console.WriteLine($"code is {code}");
+         var queryParams = HttpContext.Request.Query;
 
-        string postToken = state;
-        PostData postData;
-        if (!string.IsNullOrEmpty(postToken))
-        {
-            var accessToken = await _divarService.ExchangeCodeForAccessTokenAsync(code,"https://sharifexperts.ir/Inquiry");
-            System.Console.WriteLine("AccessToken",accessToken);
-             postData = await _divarService.GetPostDataAsync(postToken,accessToken);
-             if(postData == null) throw new ArgumentNullException("Post Data is null or can not handshake with divar");
-        }
-        else
-        {
-             postData = new PostData()
+            // Log query parameters
+            foreach (var param in queryParams)
             {
-                Token = "new",
-                Data = new Data()
-                {
-                    Title = "درخواست جدید",
-                }
-            };
-        }
-         return View(postData);
+                Console.WriteLine($"Query Parameter: {param.Key} = {param.Value}");
+            }
+
+        return Ok($"Done !");
+        // string postToken = "state";
+        // PostData postData;
+        // if (!string.IsNullOrEmpty(postToken))
+        // {
+        //     var accessToken = await _divarService.ExchangeCodeForAccessTokenAsync("code","https://1163-2-176-95-255.ngrok-free.app/Inquiry/GetPostData");
+        //     System.Console.WriteLine("AccessToken",accessToken);
+        //      postData = await _divarService.GetPostDataAsync(postToken,accessToken);
+        //      if(postData == null) throw new ArgumentNullException("Post Data is null or can not handshake with divar");
+        // }
+        // else
+        // {
+        //      postData = new PostData()
+        //     {
+        //         Token = "new",
+        //         Data = new Data()
+        //         {
+        //             Title = "درخواست جدید",
+        //         }
+        //     };
+        // }
+        //  return View(postData);
     }
 
 
