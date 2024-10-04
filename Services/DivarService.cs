@@ -1,5 +1,5 @@
-using divar.Extensions;
 using divar.ViewModels;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace divar.Services
@@ -13,12 +13,15 @@ namespace divar.Services
 
         private readonly string _ClientSecret ;
 
-        public DivarService(HttpClient httpClient, string apiKey)
+        private readonly DivarSetting _divarSetting;
+
+
+        public DivarService(HttpClient httpClient,IOptions<DivarSetting> divarSetting)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
-            _ClientId = "snapdragon-beryl-lifter";
-            _ClientSecret = "";
+
+            _divarSetting = divarSetting.Value;
+
         }
 
 
@@ -66,7 +69,7 @@ namespace divar.Services
         }
 
 
-        public string GenerateAuthorizationUrl(string redirectUri, string state,string encodedPostData)
+        public string GenerateAuthorizationUrl(string redirectUri, string state)
         {
             if (string.IsNullOrWhiteSpace(redirectUri)) throw new ArgumentException("RedirectUri must not be null or empty", nameof(redirectUri));
 

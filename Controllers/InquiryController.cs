@@ -32,11 +32,11 @@ public class InquiryController : Controller
 
  
     
-    public async Task<IActionResult> GetPostData(string state,string code)
+    public async Task<IActionResult> GetPostData()
     {
        
-        System.Console.WriteLine($"state is {state}");
-        System.Console.WriteLine($"code is {code}");
+        // System.Console.WriteLine($"state is {state}");
+        // System.Console.WriteLine($"code is {code}");
          var queryParams = HttpContext.Request.Query;
 
             // Log query parameters

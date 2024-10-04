@@ -5,7 +5,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceExtension
     {
-        public static void AddDivarService(this IServiceCollection services, string apiKey)
+        public static void AddDivarService(this IServiceCollection services)
         {
             services.AddHttpClient<DivarService>(client =>
               {
@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<DivarService>(provider =>
       {
           var httpClient = provider.GetRequiredService<IHttpClientFactory>().CreateClient();
-          return new DivarService(httpClient, apiKey);
+          return new DivarService(httpClient);
       });
       }
 

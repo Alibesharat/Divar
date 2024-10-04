@@ -2,6 +2,7 @@
 using divar.Services;
 using divar.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace divar.Controllers
 {
@@ -12,10 +13,13 @@ namespace divar.Controllers
     {
 
         public DivarService _divarService;
+        private readonly DivarSetting _divarSetting;
 
-        public DivarController(DivarService divarService)
+        public DivarController(DivarService divarService, IOptions<DivarSetting> divarSetting)
         {
             _divarService = divarService;
+            _divarSetting = divarSetting.Value;
+
         }
 
 
@@ -33,8 +37,8 @@ namespace divar.Controllers
             var userId = divarRequest.user_id; // The user who requested app .
             var peerId = divarRequest.peer_id; //The other user in the chat .
             var postToken = divarRequest.post_token; // the ads token .
-            string redirectUrl = $"https://f44f-204-18-233-125.ngrok-free.app/Inquiry/GetPostData";
-             
+            string redirectUrl = _divarSetting.RedirectUrl;
+
             var postData = $"{userId}:{postToken}:{peerId}";
             string encodedPostData = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(postData));
 
@@ -43,13 +47,13 @@ namespace divar.Controllers
                 DivarScope.CHAT_MESSAGE_SEND,
                 DivarScope.USER_PHONE
             ];
-            string generatedUrl =  _divarService.GenerateAuthorizationUrl(redirectUrl,postToken,encodedPostData);
+            string generatedUrl = _divarService.GenerateAuthorizationUrl(redirectUrl, postToken);
             System.Console.WriteLine(generatedUrl);
             return Redirect(generatedUrl);
         }
 
 
-        
+
 
     }
 }
