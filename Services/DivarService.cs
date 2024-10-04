@@ -7,34 +7,24 @@ namespace divar.Services
     public class DivarService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _apiKey;
-
-        private readonly string _ClientId  ;
-
-        private readonly string _ClientSecret ;
-
         private readonly DivarSetting _divarSetting;
 
-
-        public DivarService(HttpClient httpClient,IOptions<DivarSetting> divarSetting)
+        public DivarService(HttpClient httpClient, IOptions<DivarSetting> divarSetting)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 
             _divarSetting = divarSetting.Value;
-
         }
 
-
-
         /// <summary>
-        /// دریافت اطلاعات پست در دیوار 
+        /// دریافت اطلاعات پست در دیوار
         /// </summary>
         /// <param name="PostToken"></param>
         /// <param name="accessToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
 
-        public async Task<PostData> GetPostDataAsync(string PostToken,string accessToken)
+        public async Task<PostData> GetPostDataAsync(string PostToken, string accessToken)
         {
             if (string.IsNullOrWhiteSpace(PostToken))
                 throw new ArgumentException("Token must not be null or empty", nameof(PostToken));
@@ -42,9 +32,8 @@ namespace divar.Services
 
             // Set up the request headers
             _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Add("x-api-key", _apiKey);
+            _httpClient.DefaultRequestHeaders.Add("x-api-key", _divarSetting.ApiToken);
             _httpClient.DefaultRequestHeaders.Add("x-access-token", accessToken);
-
 
             try
             {
@@ -58,7 +47,6 @@ namespace divar.Services
                 // Deserialize JSON to object
                 var postData = JsonConvert.DeserializeObject<PostData>(jsonResponse);
 
-
                 return postData;
             }
             catch (HttpRequestException e)
@@ -68,50 +56,67 @@ namespace divar.Services
             }
         }
 
-
-        public string GenerateAuthorizationUrl(string redirectUri, string state)
+        public string GenerateAuthorizationUrl(string state)
         {
-            if (string.IsNullOrWhiteSpace(redirectUri)) throw new ArgumentException("RedirectUri must not be null or empty", nameof(redirectUri));
+            //BUG BUG : Double check the whole workFlow , it is not clear from third party !
 
-            //BUG BUG : Double check the whole workFlow , it is not clear from third party ! 
-            
-            List<DivarScope> scopes =
-            [
-                DivarScope.USER_PHONE
-            ];
-            var scopeString = string.Join(" ", scopes.Select(s => s.ToString()));
+            // List<DivarScope> scopes =
+            // [
+            //     DivarScope.USER_PHONE
+            // ];
+            // var scopeString = string.Join(" ", scopes.Select(s => s.ToString()));
 
-            // URL encode redirectUri
-            string encodedRedirectUri = Uri.EscapeDataString(redirectUri);
+            // // URL encode redirectUri
+            // string encodedRedirectUri = Uri.EscapeDataString(_divarSetting.RedirectUrl);
 
-            // Build the authorization URL
-            var authorizationUrl = $"https://api.divar.ir/oauth2/auth?response_type=code" +
-                                   $"&client_id={_ClientId}" +
-                                   $"&redirect_uri={encodedRedirectUri}" +
-                                   $"&scope={Uri.EscapeDataString(scopeString)}" +
-                                   $"&state={state}";
+            // // Build the authorization URL
+            // var authorizationUrl = $"https://api.divar.ir/oauth2/auth?response_type=code" +
+            //                        $"&client_id={_divarSetting.ClientId}" +
+            //                        $"&redirect_uri={encodedRedirectUri}" +
+            //                        $"&scope={Uri.EscapeDataString(scopeString)}" +
+            //                        $"&state={state}";
 
-            return authorizationUrl;
+            // return authorizationUrl;
+
+            var query =
+                $"response_type=code&client_id={_divarSetting.ClientId}&redirect_uri={Uri.EscapeDataString(_divarSetting.RedirectUrl)}&scope=USER_PHONE&state={state}";
+            var uriBuilder = new UriBuilder("https://api.divar.ir")
+            {
+                Path = "/oauth2/auth",
+                Query = query,
+                Port =
+                    -1 // This removes the default port
+                ,
+            };
+            return uriBuilder.ToString();
         }
-   
+
         public async Task<string> ExchangeCodeForAccessTokenAsync(string code, string redirectUri)
         {
-            if (string.IsNullOrWhiteSpace(code)) throw new ArgumentException("Code must not be null or empty", nameof(code));
-            if (string.IsNullOrWhiteSpace(redirectUri)) throw new ArgumentException("RedirectUri must not be null or empty", nameof(redirectUri));
+            if (string.IsNullOrWhiteSpace(code))
+                throw new ArgumentException("Code must not be null or empty", nameof(code));
+            if (string.IsNullOrWhiteSpace(redirectUri))
+                throw new ArgumentException(
+                    "RedirectUri must not be null or empty",
+                    nameof(redirectUri)
+                );
 
             var tokenRequestBody = new Dictionary<string, string>
             {
                 { "code", code },
-                { "client_id", _ClientId },
-                { "client_secret", _ClientSecret },
+                { "client_id", _divarSetting.ClientId },
+                { "client_secret", _divarSetting.ClientSecret },
                 { "grant_type", "authorization_code" },
-                { "redirect_uri", redirectUri }
+                { "redirect_uri", redirectUri },
             };
 
             try
             {
                 var content = new FormUrlEncodedContent(tokenRequestBody);
-                var response = await _httpClient.PostAsync("https://api.divar.ir/oauth2/token", content);
+                var response = await _httpClient.PostAsync(
+                    "https://api.divar.ir/oauth2/token",
+                    content
+                );
                 response.EnsureSuccessStatusCode();
 
                 var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -125,27 +130,30 @@ namespace divar.Services
             }
         }
 
-
-        public async Task<string> RefreshAccessTokenAsync(string refreshToken, string clientId, string clientSecret, string redirectUri)
+        public async Task<string> RefreshAccessTokenAsync(string refreshToken)
         {
-            if (string.IsNullOrWhiteSpace(refreshToken)) throw new ArgumentException("RefreshToken must not be null or empty", nameof(refreshToken));
-            if (string.IsNullOrWhiteSpace(clientId)) throw new ArgumentException("ClientId must not be null or empty", nameof(clientId));
-            if (string.IsNullOrWhiteSpace(clientSecret)) throw new ArgumentException("ClientSecret must not be null or empty", nameof(clientSecret));
-            if (string.IsNullOrWhiteSpace(redirectUri)) throw new ArgumentException("RedirectUri must not be null or empty", nameof(redirectUri));
+            if (string.IsNullOrWhiteSpace(refreshToken))
+                throw new ArgumentException(
+                    "RefreshToken must not be null or empty",
+                    nameof(refreshToken)
+                );
 
             var refreshRequestBody = new Dictionary<string, string>
             {
                 { "grant_type", "refresh_token" },
-                { "client_id", clientId },
-                { "client_secret", clientSecret },
+                { "client_id", _divarSetting.ClientId },
+                { "client_secret", _divarSetting.ClientSecret },
                 { "refresh_token", refreshToken },
-                { "redirect_uri", redirectUri }
+                { "redirect_uri", _divarSetting.RedirectUrl },
             };
 
             try
             {
                 var content = new FormUrlEncodedContent(refreshRequestBody);
-                var response = await _httpClient.PostAsync("https://api.divar.ir/oauth2/token", content);
+                var response = await _httpClient.PostAsync(
+                    "https://api.divar.ir/oauth2/token",
+                    content
+                );
                 response.EnsureSuccessStatusCode();
 
                 var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -158,15 +166,5 @@ namespace divar.Services
                 return null;
             }
         }
-
-
-
-
-
-
-
-
-
-
     }
 }

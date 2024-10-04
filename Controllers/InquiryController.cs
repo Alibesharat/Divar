@@ -10,6 +10,7 @@ namespace divar.Controllers;
 /// <summary>
 ///InquiryController
 /// </summary>
+[Route("Inquiry")]
 public class InquiryController : Controller
 {
     private readonly ILogger<InquiryController> _logger;
@@ -22,17 +23,14 @@ public class InquiryController : Controller
     public InquiryController(ILogger<InquiryController> logger)
     {
         _logger = logger;
-        _divarService = null;
-        _Db = null;
-        _sms =null  ;
+       
        // _Db.Initialize();
     }
 
 
 
- 
-    
-    public async Task<IActionResult> GetPostData()
+     [HttpGet("GetPostData")]
+    public IActionResult GetPostData()
     {
        
         // System.Console.WriteLine($"state is {state}");
@@ -69,7 +67,7 @@ public class InquiryController : Controller
         //  return View(postData);
     }
 
-
+    [HttpGet(nameof(Reservation))]
     public  IActionResult Reservation([FromForm]string postTitle, string name, string mobile, int option, int date,string postToken)
     {
         var _date = DateTime.UtcNow.AddDays(date);
@@ -114,15 +112,8 @@ public class InquiryController : Controller
         return trackingCode;
 
     }
+    
+    
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+   
 }

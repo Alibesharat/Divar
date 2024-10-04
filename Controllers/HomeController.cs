@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using divar.Services;
 using divar.ViewModels;
 
 namespace divar.Controllers;
@@ -8,14 +7,11 @@ namespace divar.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly DivarService _divarService;
-
-    public HomeController(ILogger<HomeController> logger, DivarService divarService)
+    public HomeController(ILogger<HomeController> logger )
     {
         _logger = logger;
-        _divarService = divarService;
+        
     }
-
     public IActionResult Index()
     {
         return View();

@@ -27,7 +27,6 @@ namespace divar.Controllers
         public IActionResult StartChat([FromBody] DivarRequest divarRequest)
         {
             Console.WriteLine("Divar is here ... ");
-
             //Handle the incoming data
             if (divarRequest == null)
             {
@@ -37,17 +36,12 @@ namespace divar.Controllers
             var userId = divarRequest.user_id; // The user who requested app .
             var peerId = divarRequest.peer_id; //The other user in the chat .
             var postToken = divarRequest.post_token; // the ads token .
-            string redirectUrl = _divarSetting.RedirectUrl;
 
             var postData = $"{userId}:{postToken}:{peerId}";
             string encodedPostData = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(postData));
 
-            List<DivarScope> scopes =
-            [
-                DivarScope.CHAT_MESSAGE_SEND,
-                DivarScope.USER_PHONE
-            ];
-            string generatedUrl = _divarService.GenerateAuthorizationUrl(redirectUrl, postToken);
+           
+            string generatedUrl = _divarService.GenerateAuthorizationUrl(postToken);
             System.Console.WriteLine(generatedUrl);
             return Redirect(generatedUrl);
         }

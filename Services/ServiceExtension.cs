@@ -11,13 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
               {
                   // Other client configurations if needed
               });
-            services.AddTransient<DivarService>(provider =>
-      {
-          var httpClient = provider.GetRequiredService<IHttpClientFactory>().CreateClient();
-          return new DivarService(httpClient);
-      });
       }
-
 
         public static void AddSmsService(this IServiceCollection services)
         {
