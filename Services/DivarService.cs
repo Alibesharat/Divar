@@ -1,3 +1,5 @@
+using System.Text;
+using System.Web;
 using divar.ViewModels;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -56,28 +58,41 @@ namespace divar.Services
             }
         }
 
-        public string GenerateAuthorizationUrl(string state)
+        public string GenerateAuthorizationUrl(string stateData)
         {
             //BUG BUG : Double check the whole workFlow , it is not clear from third party !
 
-            List<DivarScope> scopes =
-            [
-                DivarScope.USER_PHONE
-            ];
-            var scopeString = string.Join(" ", scopes.Select(s => s.ToString()));
+               // Generate salt (random string)
+        var salt = GenerateSalt(10);
 
-            // URL encode redirectUri
-            string encodedRedirectUri = Uri.EscapeDataString(_divarSetting.RedirectUrl);
+        string state;
+        if (!string.IsNullOrEmpty(stateData))
+        {
+            // Combine stateData with salt and encrypt
+            string dataToEncrypt = $"{stateData}\n{salt}";
+            string encryptedState = EncryptionHelper.Encrypt(dataToEncrypt);
 
-            // Build the authorization URL
-            var authorizationUrl = $"https://api.divar.ir/oauth2/auth?response_type=code" +
-                                   $"&client_id={_divarSetting.ClientId}" +
-                                   $"&redirect_uri={encodedRedirectUri}" +
-                                   $"&scope={Uri.EscapeDataString(scopeString)}" +
-                                   $"&state={state}";
+            // Base64 URL encode
+            state = Convert.ToBase64String(Encoding.UTF8.GetBytes(encryptedState));
+        }
+        else
+        {
+            // If no stateData, just use salt
+            state = salt;
+        }
 
-            return authorizationUrl;
-         
+        // Create the scopes (adjust as needed)
+        string scopes = HttpUtility.UrlEncode("USER_PHONE CHAT_MESSAGE_SEND");
+
+        // Build the OAuth URL
+        var authorizationUrl = $"https://api.divar.ir/oauth2/auth?response_type=code" +
+                               $"&client_id={_divarSetting.ClientId}" +
+                               $"&redirect_uri={HttpUtility.UrlEncode(_divarSetting.RedirectUrl)}" +
+                               $"&scope={scopes}" +
+                               $"&state={state}";
+
+        return authorizationUrl;
+          
         }
 
         public async Task<string> ExchangeCodeForAccessTokenAsync(string code, string redirectUri)
@@ -154,6 +169,20 @@ namespace divar.Services
                 Console.WriteLine($"Refresh token error: {e.Message}");
                 return null;
             }
+        }
+
+        private static string GenerateSalt(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            var salt = new char[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                salt[i] = chars[random.Next(chars.Length)];
+            }
+
+            return new string(salt);
         }
     }
 }
