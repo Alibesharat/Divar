@@ -60,35 +60,24 @@ namespace divar.Services
         {
             //BUG BUG : Double check the whole workFlow , it is not clear from third party !
 
-            // List<DivarScope> scopes =
-            // [
-            //     DivarScope.USER_PHONE
-            // ];
-            // var scopeString = string.Join(" ", scopes.Select(s => s.ToString()));
+            List<DivarScope> scopes =
+            [
+                DivarScope.USER_PHONE
+            ];
+            var scopeString = string.Join(" ", scopes.Select(s => s.ToString()));
 
-            // // URL encode redirectUri
-            // string encodedRedirectUri = Uri.EscapeDataString(_divarSetting.RedirectUrl);
+            // URL encode redirectUri
+            string encodedRedirectUri = Uri.EscapeDataString(_divarSetting.RedirectUrl);
 
-            // // Build the authorization URL
-            // var authorizationUrl = $"https://api.divar.ir/oauth2/auth?response_type=code" +
-            //                        $"&client_id={_divarSetting.ClientId}" +
-            //                        $"&redirect_uri={encodedRedirectUri}" +
-            //                        $"&scope={Uri.EscapeDataString(scopeString)}" +
-            //                        $"&state={state}";
+            // Build the authorization URL
+            var authorizationUrl = $"https://api.divar.ir/oauth2/auth?response_type=code" +
+                                   $"&client_id={_divarSetting.ClientId}" +
+                                   $"&redirect_uri={encodedRedirectUri}" +
+                                   $"&scope={Uri.EscapeDataString(scopeString)}" +
+                                   $"&state={state}";
 
-            // return authorizationUrl;
-
-            var query =
-                $"response_type=code&client_id={_divarSetting.ClientId}&redirect_uri={Uri.EscapeDataString(_divarSetting.RedirectUrl)}&scope=USER_PHONE&state={state}";
-            var uriBuilder = new UriBuilder("https://api.divar.ir")
-            {
-                Path = "/oauth2/auth",
-                Query = query,
-                Port =
-                    -1 // This removes the default port
-                ,
-            };
-            return uriBuilder.ToString();
+            return authorizationUrl;
+         
         }
 
         public async Task<string> ExchangeCodeForAccessTokenAsync(string code, string redirectUri)

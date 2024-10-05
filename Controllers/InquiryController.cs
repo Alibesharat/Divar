@@ -4,6 +4,7 @@ using divar.Services;
 using divar.ViewModels;
 using divar.DAL;
 using divar.DAL.Models;
+using Microsoft.Extensions.Options;
 
 namespace divar.Controllers;
 
@@ -20,9 +21,15 @@ public class InquiryController : Controller
 
     private readonly SmsService _sms;
 
-    public InquiryController(ILogger<InquiryController> logger)
+    private readonly DivarSetting _divarSetting;
+
+    public InquiryController(ILogger<InquiryController> logger,IOptions<DivarSetting> divarSetting,DivarService divarService)
     {
         _logger = logger;
+        _divarSetting = divarSetting.Value;
+       _divarService = divarService;
+       
+
        
        // _Db.Initialize();
     }
@@ -30,41 +37,35 @@ public class InquiryController : Controller
 
 
      [HttpGet("GetPostData")]
-    public IActionResult GetPostData()
+    public async Task<IActionResult> GetPostDataAsync(string scope,string state)
     {
        
-        // System.Console.WriteLine($"state is {state}");
-        // System.Console.WriteLine($"code is {code}");
-         var queryParams = HttpContext.Request.Query;
+        _logger.LogInformation($"state is {state}");
+        _logger.LogInformation($"scope is {scope}");
 
-            // Log query parameters
-            foreach (var param in queryParams)
+
+       
+        string postToken = "state";
+        PostData postData;
+        if (!string.IsNullOrEmpty(postToken))
+        {
+            var accessToken = await _divarService.ExchangeCodeForAccessTokenAsync("code",_divarSetting.RedirectUrl);
+             Console.WriteLine("AccessToken",accessToken);
+             postData = await _divarService.GetPostDataAsync(postToken,accessToken);
+             if(postData == null) throw new ArgumentNullException("Post Data is null or can not handshake with divar");
+        }
+        else
+        {
+             postData = new PostData()
             {
-                Console.WriteLine($"Query Parameter: {param.Key} = {param.Value}");
-            }
-
-        return Ok($"Done !");
-        // string postToken = "state";
-        // PostData postData;
-        // if (!string.IsNullOrEmpty(postToken))
-        // {
-        //     var accessToken = await _divarService.ExchangeCodeForAccessTokenAsync("code","https://1163-2-176-95-255.ngrok-free.app/Inquiry/GetPostData");
-        //     System.Console.WriteLine("AccessToken",accessToken);
-        //      postData = await _divarService.GetPostDataAsync(postToken,accessToken);
-        //      if(postData == null) throw new ArgumentNullException("Post Data is null or can not handshake with divar");
-        // }
-        // else
-        // {
-        //      postData = new PostData()
-        //     {
-        //         Token = "new",
-        //         Data = new Data()
-        //         {
-        //             Title = "درخواست جدید",
-        //         }
-        //     };
-        // }
-        //  return View(postData);
+                Token = "new",
+                Data = new Data()
+                {
+                    Title = "درخواست جدید",
+                }
+            };
+        }
+         return View(postData);
     }
 
     [HttpGet(nameof(Reservation))]
